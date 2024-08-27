@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th=”http://www.thymeleaf.org”>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/maze_logo.png}">
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+	<script th:src="@{/bootstrap.min.js}"></script>
+</head>
+<body>
+    <div class="container-fluid p-5 bg-success text-white text-center min-vh-100">
+        <h1>Spring Maze</h1>
+        <p>A simple maze generator made using Spring Boot</p>
+        <hr>
+        <form method="post" th:action="@{/}" th:object="${maze}">
+            <div class="row">
+              <div class="col">
+                <input type="number" required min="3" max="100" class="form-control" placeholder="Enter Width" name="width" id="width">
+              </div>
+              <div class="col">
+                <input type="number" required min="3" max="100" class="form-control" placeholder="Enter Height" name="height" id="height">
+              </div>
+              <div class="col">
+                <input type="number" required min="-1" max="10000000" class="form-control" placeholder="Enter Seed (-1 for no seed)" name="seed" id="seed">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+                <button type="submit" class="btn btn-primary">Generate Maze</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

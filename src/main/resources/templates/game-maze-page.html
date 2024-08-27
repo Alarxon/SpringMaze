@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/maze_logo.png}">
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
+    <script th:src="@{/html2canvas.min.js}"></script>
+	<script th:src="@{/bootstrap.min.js}"></script>
+    <style>
+        table.table-bordered{
+            border:0;
+            margin-top:20px;
+        }
+        table.table-bordered > thead > tr > th{
+            border:0;
+        }
+        table.table-bordered > tbody > tr > td{
+            border:0;
+        }
+        table.table-bordered > tbody > tr > td.bottom-border {
+            border-bottom: 3px solid black;
+        }
+        table.table-bordered > tbody > tr > td.top-border {
+            border-top: 3px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-5 bg-success text-white text-center min-vh-100">
+            <a th:href="@{/}" class="btn btn-primary">Return to Home</a>
+            <hr>
+            <table id="maze" class="table table-bordered min-vh-100">
+                <tbody>
+                    <tr th:each="rows,row: ${grid}">
+                        <td th:each="columns,column: ${grid[0]}" 
+                        th:style="${borders[row.index][column.index].contains('W') && row.index == 0 && column.index == 0}? 'border-left: 5px solid red;' : 
+                        (
+                            ${borders[row.index][column.index].contains('W')}? 'border-left: 3px solid black;'
+                        )"
+                        th:styleappend="${borders[row.index][column.index].contains('E') && row.index == row.size - 1 && column.index == column.size - 1}? 'border-right: 5px solid red;' : 
+                        (
+                            ${borders[row.index][column.index].contains('E')}? 'border-right: 3px solid black;'
+                        )"
+                        th:class="${borders[row.index][column.index].contains('S')}? 'bottom-border'"
+                        th:classappend="${borders[row.index][column.index].contains('N')}? 'top-border'"
+                        ></td>
+                    </tr>
+                </tbody>
+            </table>
+            <a id="downloadImage" href="" download="maze.png" class="btn btn-info">Download</a>
+    </div>
+</body>
+<script>
+
+    //Generate and download image of the maze
+    (function() {
+        html2canvas(document.getElementById("maze"), {
+            scale: 2
+        }).then((canvas) => {
+        canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob);
+            document.getElementById("downloadImage").href = url; 
+        });
+    });
+
+    })();
+</script>
+</html>
